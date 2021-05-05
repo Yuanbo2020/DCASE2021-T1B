@@ -101,7 +101,7 @@ class ImageClassify(object):
         self.name_list = []
         self.model = model.Cnn14()
         self.model = torch.nn.DataParallel(self.model, device_ids=device_ids)
-        self.model = self.model.cuda()
+        self.model = self.model.cuda(device=device_ids[0])
         self.save = data_train_opt["final_model_file"]
         self.training_save = data_train_opt["feat_training_file"]
         self.training_log = data_train_opt["training_log"]
