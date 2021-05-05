@@ -15,7 +15,7 @@ from sklearn.metrics import classification_report,accuracy_score
 config = imp.load_source("config","config/Resnet50.py").config
 device_ids = config["device_ids"]
 data_train_opt = config['data_train_opt']
-device = torch.device("cuda:0" if torch.cuda.is_available() else 'cpu')
+# device = torch.device("cuda:0" if torch.cuda.is_available() else 'cpu')
 print("======================================")
 print("Device: {}".format(device_ids))
 
@@ -101,7 +101,7 @@ class ImageClassify(object):
         self.name_list = []
         self.model = model.VideoNet()
         self.model = torch.nn.DataParallel(self.model, device_ids=device_ids)
-        self.model = self.model.cuda()
+        self.model = self.model.cuda(device=device_ids[0])
         self.save = data_train_opt["final_model_file"]
         self.training_save = data_train_opt["feat_training_file"]
         self.training_log = data_train_opt["training_log"]
@@ -173,7 +173,7 @@ class ImageClassify(object):
                     acc_avg = top1.avg
                     log.append([epoch, i + 1, loss.item(), acc1[0], loss_avg, acc_avg])
                     progress.display(i+1)
-                    break
+
             if (epoch+1) % data_train_opt["save_epoch"] == 0:
                 acc, a = self.ValidingData(epoch+1)
                 np.save(data_train_opt["training_log"], log)
