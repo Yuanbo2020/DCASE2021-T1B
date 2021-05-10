@@ -22,7 +22,7 @@ if os.path.exists(source_path):
 
 
 #提取特征
-savepath = "./log_mel_features"
+savepath = "./log_mel_features_v2"
 if not os.path.exists(savepath):     #目标文件夹不存在就新建
     os.makedirs(savepath)
 
