@@ -91,15 +91,14 @@ class Cnn14(nn.Module):
 
     def forward(self, input_feature):
         """
-        Input: (batch_size, data_length)"""
+        Input: (batch_size, times, freq)"""
+        
+        x = input_feature.unsqueeze(1)  # (batch_size, 1, time_steps, freq_bins) (batch, 1, 1001, 64)
+        x = x.transpose(1, 3) # (batch, 64, 1001, 1)
+        x = self.bn0(x) # (batch, 64, 1001, 1)
+        x = x.transpose(1, 3) # (batch, 1, 1001, 64)
 
-        x = input_feature.unsqueeze(1)  # (batch_size, 1, time_steps, freq_bins)
-        x = x.transpose(1, 3)
-        x = self.bn0(x)
-        x = x.transpose(1, 3)
-
-
-        x = self.conv_block1(x, pool_size=(2, 2), pool_type='avg')
+        x = self.conv_block1(x, pool_size=(2, 2), pool_type='avg') # (batch, 64, 500, 32)
 
         x = F.dropout(x, p=0.2)
         x = self.conv_block2(x, pool_size=(2, 2), pool_type='avg')
