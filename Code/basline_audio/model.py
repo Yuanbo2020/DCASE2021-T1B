@@ -101,19 +101,19 @@ class Cnn14(nn.Module):
         x = self.conv_block1(x, pool_size=(2, 2), pool_type='avg') # (batch, 64, 500, 32)
 
         x = F.dropout(x, p=0.2)
-        x = self.conv_block2(x, pool_size=(2, 2), pool_type='avg')
+        x = self.conv_block2(x, pool_size=(2, 2), pool_type='avg') # (batch, 128, 250, 16)
 
         x = F.dropout(x, p=0.2)
-        x = self.conv_block3(x, pool_size=(2, 2), pool_type='avg')
+        x = self.conv_block3(x, pool_size=(2, 2), pool_type='avg') # (batch, 256, 125, 8)
 
         x = F.dropout(x, p=0.2)
-        x = self.conv_block4(x, pool_size=(2, 2), pool_type='avg')
+        x = self.conv_block4(x, pool_size=(2, 2), pool_type='avg') # (batch, 512, 62, 4)
 
         x = F.dropout(x, p=0.2)
-        x = self.conv_block5(x, pool_size=(2, 2), pool_type='avg')
+        x = self.conv_block5(x, pool_size=(2, 2), pool_type='avg') # (batch, 1024, 31, 2)
 
         x = F.dropout(x, p=0.2)
-        x = self.conv_block6(x, pool_size=(1, 1), pool_type='avg')
+        x = self.conv_block6(x, pool_size=(1, 1), pool_type='avg') # (batch, 2048, 31, 2)
 
         x = F.dropout(x, p=0.2)
         x = torch.mean(x, dim=3)
